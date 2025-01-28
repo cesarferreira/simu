@@ -9,6 +9,10 @@ struct Cli {
     /// List all available simulators
     #[arg(short, long)]
     list: bool,
+
+    /// Filter devices by type (e.g., "iphone", "ipad")
+    #[arg(name = "filter")]
+    filter: Option<String>,
 }
 
 fn get_simulators() -> Result<String> {
@@ -23,7 +27,14 @@ fn get_simulators() -> Result<String> {
         .context("Failed to parse simulator list output")
 }
 
-fn display_simulators(output: String) {
+fn should_display_device(device_name: &str, filter: Option<&String>) -> bool {
+    match filter {
+        Some(f) => device_name.to_lowercase().contains(&f.to_lowercase()),
+        None => true,
+    }
+}
+
+fn display_simulators(output: String, filter: Option<&String>) {
     let mut current_ios_version = String::new();
     
     for line in output.lines() {
@@ -39,18 +50,20 @@ fn display_simulators(output: String) {
                 let device_name = parts[0];
                 let device_info = parts[1].trim_end_matches(')');
                 
-                let status = if device_info.contains("Shutdown") {
-                    "Shutdown".red()
-                } else if device_info.contains("Booted") {
-                    "Booted".green()
-                } else {
-                    "Unknown".yellow()
-                };
-                
-                println!("{} ({}) ({})", 
-                    device_name.white(),
-                    current_ios_version.cyan(),
-                    status);
+                if should_display_device(device_name, filter) {
+                    let status = if device_info.contains("Shutdown") {
+                        "Shutdown".red()
+                    } else if device_info.contains("Booted") {
+                        "Booted".green()
+                    } else {
+                        "Unknown".yellow()
+                    };
+                    
+                    println!("{} ({}) ({})", 
+                        device_name.white(),
+                        current_ios_version.cyan(),
+                        status);
+                }
             }
         }
     }
@@ -61,7 +74,7 @@ fn main() -> Result<()> {
 
     if cli.list {
         let simulators = get_simulators()?;
-        display_simulators(simulators);
+        display_simulators(simulators, cli.filter.as_ref());
     }
 
     Ok(())
