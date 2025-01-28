@@ -1,45 +1,89 @@
-You can launch iOS emulators (simulators) directly from the terminal using xcrun and simctl, tools provided by Xcode. Here’s how:
+# 📱 Simbox
 
-1. List Available Simulators
+> A powerful and user-friendly CLI tool for managing iOS simulators
 
-Run the following command to list all available iOS simulators:
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org)
 
-xcrun simctl list devices
+Simbox makes it easy to list, search, and launch iOS simulators from your terminal. No more hunting through Xcode or remembering complex commands!
 
-This will display all available devices and their states (e.g., Booted or Shutdown).
+## ✨ Features
 
-2. Boot a Specific Simulator
+- 🔍 **Interactive Mode**: Fuzzy search through your simulators
+- 📋 **List View**: See all available simulators with their status
+- 🎯 **Smart Filtering**: Filter simulators by type (iPhone, iPad)
+- 🚀 **Quick Launch**: Boot simulators directly by name
+- 🎨 **Beautiful Interface**: Color-coded output for better visibility
+- ⚡️ **Fast & Efficient**: Written in Rust for maximum performance
 
-To boot a specific simulator, you need its UDID (from the list above). Run:
+## 🚀 Installation
 
-xcrun simctl boot <UDID>
+```bash
+cargo install simbox
+```
 
-For example:
+## 🎯 Usage
 
-xcrun simctl boot F2D99A30-872C-4F8F-B674-2BEB1F6E82E4
+### Interactive Mode (Recommended)
 
-3. Open the Simulator App
+Launch the interactive selector with fuzzy search:
+```bash
+simbox -i
+# or
+simbox --interactive
+```
 
-After booting, open the Simulator app:
+### List All Simulators
 
-open -a Simulator
+View all available simulators:
+```bash
+simbox --list
+```
 
-4. Combine Commands
+### Filter Simulators
 
-To simplify, you can combine the commands into one:
+Show only specific device types:
+```bash
+simbox --list iphone    # Show only iPhones
+simbox --list ipad      # Show only iPads
+simbox --list pro       # Show only Pro devices
+```
 
-xcrun simctl boot <UDID> && open -a Simulator
+### Boot Specific Simulator
 
-5. Use a Shortcut for a Named Device
+Launch a simulator by name:
+```bash
+simbox --boot "iPhone 15 Pro"
+```
 
-If you know the device’s name (e.g., “iPhone 14”), you can skip looking up the UDID by using:
+## 🎨 Output Format
 
-xcrun simctl boot "iPhone 14" && open -a Simulator
+Simulators are displayed with color-coded information:
+- Device Name (white)
+- iOS Version (cyan)
+- Status:
+  - 🟢 Booted (green)
+  - 🔴 Shutdown (red)
 
-6. Shutdown All Simulators
+Example output:
+```
+iPhone 15 Pro (iOS 17.2) (Shutdown)
+iPhone 16 Pro Max (iOS 18.2) (Booted)
+```
 
-To shut down all running simulators:
+## 🤝 Contributing
 
-xcrun simctl shutdown all
+Contributions are welcome! Feel free to:
+- Report bugs
+- Suggest features
+- Submit pull requests
 
-This allows you to manage and launch your iOS simulators directly from the terminal.
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with [Rust](https://www.rust-lang.org)
+- Uses [inquire](https://docs.rs/inquire) for interactive selection
+- Uses [clap](https://docs.rs/clap) for CLI argument parsing

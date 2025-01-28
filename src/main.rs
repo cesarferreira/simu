@@ -2,6 +2,7 @@ use anyhow::{Context, Result, anyhow};
 use clap::Parser;
 use colored::*;
 use std::process::Command;
+use inquire::Select;
 
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -17,14 +18,24 @@ struct Cli {
     /// Boot a specific simulator by name (e.g., "iPhone 15 Pro")
     #[arg(long)]
     boot: Option<String>,
+
+    /// Interactive mode with fuzzy search
+    #[arg(short, long)]
+    interactive: bool,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Device {
     name: String,
     udid: String,
     ios_version: String,
     status: String,
+}
+
+impl Device {
+    fn display_string(&self) -> String {
+        format!("{} ({}) ({})", self.name, self.ios_version, self.status)
+    }
 }
 
 fn get_simulators() -> Result<String> {
@@ -97,6 +108,51 @@ fn display_simulators(devices: &[Device], filter: Option<&String>) {
     }
 }
 
+fn interactive_select(devices: &[Device]) -> Result<Option<Device>> {
+    if devices.is_empty() {
+        println!("{}", "No simulators available".red());
+        return Ok(None);
+    }
+
+    let device_strings: Vec<String> = devices.iter()
+        .map(|d| {
+            let status = if d.status.contains("Shutdown") {
+                "Shutdown".red().to_string()
+            } else if d.status.contains("Booted") {
+                "Booted".green().to_string()
+            } else {
+                "Unknown".yellow().to_string()
+            };
+            format!("{} ({}) ({})", 
+                d.name.white(),
+                d.ios_version.cyan(),
+                status)
+        })
+        .collect();
+
+    let selection = Select::new("Select a simulator to boot:", device_strings)
+        .with_page_size(10)
+        .prompt()
+        .map_err(|e| anyhow!("Selection failed: {}", e))?;
+
+    let index = devices.iter().position(|d| {
+        let status = if d.status.contains("Shutdown") {
+            "Shutdown".red().to_string()
+        } else if d.status.contains("Booted") {
+            "Booted".green().to_string()
+        } else {
+            "Unknown".yellow().to_string()
+        };
+        let display = format!("{} ({}) ({})", 
+            d.name.white(),
+            d.ios_version.cyan(),
+            status);
+        display == selection
+    }).ok_or_else(|| anyhow!("Selected device not found"))?;
+
+    Ok(Some(devices[index].clone()))
+}
+
 fn boot_simulator(device_name: &str, devices: &[Device]) -> Result<()> {
     let device = devices.iter()
         .find(|d| d.name.to_lowercase() == device_name.to_lowercase())
@@ -146,7 +202,11 @@ fn main() -> Result<()> {
     let simulators = get_simulators()?;
     let devices = parse_devices(simulators);
 
-    if cli.list {
+    if cli.interactive {
+        if let Some(selected_device) = interactive_select(&devices)? {
+            boot_simulator(&selected_device.name, &devices)?;
+        }
+    } else if cli.list {
         display_simulators(&devices, cli.filter.as_ref());
     } else if let Some(device_name) = cli.boot {
         boot_simulator(&device_name, &devices)?;

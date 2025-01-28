@@ -1,16 +1,16 @@
 [package]
-name = "simbox"
+name = "simu"
 version = "0.1.0"
 edition = "2021"
 authors = ["Cesar Ferreira <cesar.manuel.ferreira@gmail.com>"]
 description = "A CLI tool for managing iOS simulators"
 license = "MIT"
-repository = "https://github.com/cesarferreira/simbox"
-homepage = "https://github.com/cesarferreira/simbox"
+repository = "https://github.com/cesarferreira/simu"
+homepage = "https://github.com/cesarferreira/simu"
 readme = "README.md"
 
 [[bin]]
-name = "simbox"
+name = "simu"
 path = "src/main.rs"
 
 [dependencies]
@@ -19,3 +19,4 @@ colored = "2.1.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 anyhow = "1.0"
+inquire = "0.6.2"
