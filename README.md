@@ -2,10 +2,12 @@
 
 > A powerful and user-friendly CLI tool for managing iOS simulators
 
+[![Crates.io Version](https://img.shields.io/crates/v/simu)](https://crates.io/crates/simu)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Rust](https://img.shields.io/badge/rust-1.70%2B-orange.svg)](https://www.rust-lang.org)
+[![Crates.io Total Downloads](https://img.shields.io/crates/d/simu)](https://crates.io/crates/simu)
 
-Simbox makes it easy to list, search, and launch iOS simulators from your terminal. No more hunting through Xcode or remembering complex commands!
+Simu makes it easy to list, search, and launch iOS simulators from your terminal. No more hunting through Xcode or remembering complex commands!
 
 ## ✨ Features
 
