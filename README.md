@@ -1,9 +1,4 @@
-
-<p align="center">
-  <img src="media/ss.png" width="100%" />
-</p>
-
-# 📱 Simu
+# 📱 simu
 
 > A powerful and user-friendly CLI tool for managing iOS simulators
 
@@ -13,6 +8,10 @@
 [![Crates.io Total Downloads](https://img.shields.io/crates/d/simu)](https://crates.io/crates/simu)
 
 Simu makes it easy to list, search, and launch iOS simulators from your terminal. No more hunting through Xcode or remembering complex commands!
+
+<p align="center">
+  <img src="media/ss.png" width="100%" />
+</p>
 
 ## ✨ Features
 
