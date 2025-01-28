@@ -28,8 +28,11 @@ fn display_simulators(output: String) {
     
     for line in output.lines() {
         if line.contains("-- iOS") {
-            current_ios_version = line.trim().to_string();
-            println!("\n{}", current_ios_version.bright_blue().bold());
+            current_ios_version = line.trim()
+                .trim_start_matches("--")
+                .trim_end_matches("--")
+                .trim()
+                .to_string();
         } else if line.contains("(") && line.contains(")") {
             let parts: Vec<&str> = line.trim().splitn(2, " (").collect();
             if parts.len() == 2 {
@@ -44,7 +47,10 @@ fn display_simulators(output: String) {
                     "Unknown".yellow()
                 };
                 
-                println!("  {} ({})", device_name.white(), status);
+                println!("{} ({}) ({})", 
+                    device_name.white(),
+                    current_ios_version.cyan(),
+                    status);
             }
         }
     }
