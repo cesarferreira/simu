@@ -1,3 +1,8 @@
+
+<p align="center">
+  <img src="media/ss.png" width="100%" />
+</p>
+
 # 📱 Simu
 
 > A powerful and user-friendly CLI tool for managing iOS simulators
