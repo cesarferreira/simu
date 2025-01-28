@@ -1,0 +1,10 @@
+{
+  "include": ["./.base_robin.json"],
+  "scripts": {
+    "run:list": "cargo run -- --list",
+    "run:dev": "cargo run -- --help",
+    "run:doctor": "cargo run -- --doctor",
+    "run:interactive": "cargo run -- --interactive",
+    "run:version": "cargo run -- --version"
+  }
+}

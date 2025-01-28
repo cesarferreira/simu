@@ -1,0 +1,16 @@
+[package]
+name = "simbox"
+version = "0.1.0"
+edition = "2021"
+authors = ["Cesar Ferreira <cesar.manuel.ferreira@gmail.com>"]
+description = "xxx"
+license = "MIT"
+repository = "https://github.com/cesarferreira/simbox"
+homepage = "https://github.com/cesarferreira/simbox"
+readme = "README.md"
+
+[[bin]]
+name = "simbox"
+path = "src/main.rs"
+
+[dependencies]
