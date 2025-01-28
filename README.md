@@ -1,4 +1,4 @@
-# 📱 Simbox
+# 📱 Simu
 
 > A powerful and user-friendly CLI tool for managing iOS simulators
 
@@ -19,7 +19,7 @@ Simbox makes it easy to list, search, and launch iOS simulators from your termin
 ## 🚀 Installation
 
 ```bash
-cargo install simbox
+cargo install simu
 ```
 
 ## 🎯 Usage
@@ -28,32 +28,32 @@ cargo install simbox
 
 Launch the interactive selector with fuzzy search:
 ```bash
-simbox -i
+simu -i
 # or
-simbox --interactive
+simu --interactive
 ```
 
 ### List All Simulators
 
 View all available simulators:
 ```bash
-simbox --list
+simu --list
 ```
 
 ### Filter Simulators
 
 Show only specific device types:
 ```bash
-simbox --list iphone    # Show only iPhones
-simbox --list ipad      # Show only iPads
-simbox --list pro       # Show only Pro devices
+simu --list iphone    # Show only iPhones
+simu --list ipad      # Show only iPads
+simu --list pro       # Show only Pro devices
 ```
 
 ### Boot Specific Simulator
 
 Launch a simulator by name:
 ```bash
-simbox --boot "iPhone 15 Pro"
+simu --boot "iPhone 15 Pro"
 ```
 
 ## 🎨 Output Format
